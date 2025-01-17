@@ -1,16 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Choo Choo! This is an example of a create-react-app site running on Railway.</p>
-        <a className="App-link" href="https://react.dev/learn" target="_blank" rel="noreferrer noopener">Learn React</a>
-      </header>
-    </div>
-  );
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/test`)
+            .then((response) => response.json())
+            .then((data) => setData(data))
+            .catch((error) => console.error('Error fetching data:', error));
+    }, []);
+
+    return (
+        <div>
+            <h1>CookBook</h1>
+            <pre>{data ? JSON.stringify(data, null, 2) : 'Loading...'}</pre>
+        </div>
+    );
 }
 
 export default App;
